@@ -1,0 +1,15 @@
+将本地文件推送到GitHub“三步走”：
+1. git add .     #将某变动（新增/修改/删除）的“文件”或“文件夹（包括所有子目录及其文件）”添加到暂缓区
+2. git commit [-m "注释说明提交的内容"]    #提交,[]代表可选项
+3. git push origin    #推送内容至GitHub上。origin代表分支在GitHub上的具体url，origin=https://github.com/janfesir007/Machine-Learning
+
+
+
+git remote
+     因为不需要每次都用完整的url,所以Git为每一个remote repo的url都建立一个别名,然后用git remote来管理这个list.
+     git remote: 列出remote aliases.
+     如果你clone一个project,Git会自动将原来的url添加进来,别名就叫做:origin.
+     git remote -v:可以看见每一个别名对应的实际url.
+     git remote add [alias] [url]: 添加一个新的remote repo.
+     git remote rm [alias]: 删除一个存在的remote alias.
+     git remote rename [old-alias] [new-alias]: 重命名.
