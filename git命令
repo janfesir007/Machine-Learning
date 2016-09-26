@@ -1,4 +1,5 @@
 将本地文件推送到GitHub“三步走”：
+0.打开终端，先cd到相应目录（Github_Projects）
 1. git add .     #将某变动（新增/修改/删除）的“文件”或“文件夹（包括所有子目录及其文件）”添加到暂缓区
 2. git commit [-m "注释说明提交的内容"]    #提交,[]代表可选项
 3. git push origin    #推送内容至GitHub上。origin代表分支在GitHub上的具体url，origin=https://github.com/janfesir007/Machine-Learning

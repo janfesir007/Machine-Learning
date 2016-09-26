@@ -1,4 +1,5 @@
 # -*-coding:gbk-*-
+import time
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -13,7 +14,7 @@ y = tf.placeholder("float", shape=[None, 10])
 以避免神经元节点输出恒为0的问题（dead neurons）。
 为了不在建立模型的时候反复做初始化操作，我们定义两个函数用于初始化
 """
-def weight_variable(shape):  #初始化权重 w =[height, width, in_channels, out_channels]=[权重窗口大小的长, 权重窗口大小的宽, 输入通道数, 输出通道数]
+def weight_variable(shape):  # 初始化权重 w =[height, width, in_channels, out_channels]=[权重窗口大小的长, 权重窗口大小的宽, 输入通道数, 输出通道数]
     #在卷积层，权重窗口和滑动窗口大小是相同的，因为他们是做点积运算的
     initial_w = tf.truncated_normal(shape=shape, stddev=0.1)  # 由“截断正态分布(truncated normal distribution)”随机产生数值;stddev指“标准差”
     return tf.Variable(initial_w)
@@ -69,7 +70,7 @@ x_image_conv2 = h_pool1  # 图片x经过第一层后得到的输出（32张14×14×1的特征图片�
 h_conv2_relu2 = tf.nn.relu(conv2d(x_image_conv2, w_conv2) + b_conv2)  # 先经过卷积层得到64张14×14×1的特征图片，再经过激励函数
 h_pool2 = max_pool_2x2(h_conv2_relu2)  # 第二层池化后得到64张7×7×1的特征图片
 
-"""
+""" fully connected
 全连接层：所有图片的所有像素点与所有神经元都有权重连接
     现在，图片尺寸减小到7x7，我们加入一个有1024个神经元的全连接层，
     用于处理整个图片。我们把池化层输出的张量reshape成一些向量，乘上权重矩阵，加上偏置，然后对其使用ReLU
@@ -100,16 +101,22 @@ y_output = tf.nn.softmax(tf.matmul(x_image_soft, w_soft) + b_soft)  # 得到n×10�
 
 """评估模型: 交叉熵损失最小化"""
 cross_entropy = tf.reduce_sum(-y*tf.log(y_output))
-train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)  # 随机梯度优化
+# train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)  # 随机梯度优化，准确率99.26
+train_step = tf.train.GradientDescentOptimizer(1e-4).minimize(cross_entropy)  # 20000次训练，用时约5小时，准确率98.9
 correct_pridict = tf.equal(tf.arg_max(y, 1), tf.arg_max(y_output, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pridict, "float"))
-with tf.InteractiveSession() as sess:
+with tf.Session() as sess:
     sess.run(tf.initialize_all_variables())
+    start_time = time.clock()
     for i in range(20000):
         batch = mist_data.train.next_batch(50)
-        if i % 100 == 0:
+        train_step.run(feed_dict={x: batch[0], y: batch[1], keep_droop_prob: 0.5})  # 训练
+        if i % 5000 == 0:
             train_accuracy = accuracy.eval(feed_dict={x: batch[0], y: batch[1], keep_droop_prob: 1.0})
             print "训练第%d步，准确率为%f" % (i, train_accuracy)
-        train_step.run(feed_dict={x: batch[0], y: batch[1], keep_droop_prob: 0.5})
-        test_accuracy = accuracy.eval(feed_dict={x: mist_data.test.images, y: mist_data.test.labels, keep_droop_prob: 1.0})
-        print "测试第%d步，准确率为%f" % (i, test_accuracy)
+            # test_accuracy = accuracy.eval(feed_dict={x: mist_data.test.images, y: mist_data.test.labels, keep_droop_prob: 1.0})
+            # print "测试第%d步，准确率为%f" % (i, test_accuracy)
+    end_time = time.clock()
+    test_accuracy = accuracy.eval(feed_dict={x: mist_data.test.images, y: mist_data.test.labels, keep_droop_prob: 1.0})
+    print "最终测试准确率为%f" % test_accuracy
+    print "用时%f秒" % (end_time-start_time)

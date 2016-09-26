@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/Github_Projects/PycharmProjects/CNN_Tensorflow/.idea/CNN_Tensorflow.iml" filepath="$USER_HOME$/Github_Projects/PycharmProjects/CNN_Tensorflow/.idea/CNN_Tensorflow.iml" />
       <module fileurl="file://$USER_HOME$/PycharmProjects/MNIST_Tensorflow/.idea/MNIST_Tensorflow.iml" filepath="$USER_HOME$/PycharmProjects/MNIST_Tensorflow/.idea/MNIST_Tensorflow.iml" />
     </modules>
   </component>
