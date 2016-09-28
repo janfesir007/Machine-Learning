@@ -6,6 +6,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 mist_data = input_data.read_data_sets("MNIST_data", one_hot=True)
 x = tf.placeholder("float", shape=[None, 784])
 y = tf.placeholder("float", shape=[None, 10])
+learn_rate = tf.placeholder("float")  # Ñ§Ï°ÂÊ¿É±ä»¯
 
 """  È¨ÖØ/Æ«ÖÃµÄ³õÊ¼»¯£º
 ÎªÁË´´½¨Õâ¸öÄ£ĞÍ£¬ÎÒÃÇĞèÒª´´½¨´óÁ¿µÄÈ¨ÖØºÍÆ«ÖÃÏî¡£
@@ -101,17 +102,19 @@ y_output = tf.nn.softmax(tf.matmul(x_image_soft, w_soft) + b_soft)  # µÃµ½n¡Á10¾
 
 """ÆÀ¹ÀÄ£ĞÍ: ½»²æìØËğÊ§×îĞ¡»¯"""
 cross_entropy = tf.reduce_sum(-y*tf.log(y_output))
-# train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)  # Ëæ»úÌİ¶ÈÓÅ»¯£¬×¼È·ÂÊ99.26
-train_step = tf.train.GradientDescentOptimizer(1e-4).minimize(cross_entropy)  # 20000´ÎÑµÁ·£¬ÓÃÊ±Ô¼5Ğ¡Ê±£¬×¼È·ÂÊ98.9
+train_step = tf.train.AdamOptimizer(learning_rate=learn_rate).minimize(cross_entropy)  # Ìİ¶ÈÏÂ½µÓÅ»¯£¬×¼È·ÂÊ99.26;Ñ§Ï°ÂÊ¿É±ä»¯
+# train_step = tf.train.GradientDescentOptimizer(learning_rate=learn_rate).minimize(cross_entropy)  # 20000´ÎÑµÁ·£¬ÓÃÊ±Ô¼5Ğ¡Ê±£¬×¼È·ÂÊ98.9
 correct_pridict = tf.equal(tf.arg_max(y, 1), tf.arg_max(y_output, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pridict, "float"))
+
 with tf.Session() as sess:
-    sess.run(tf.initialize_all_variables())
+    sess.run(tf.initialize_all_variables())  # ËùÓĞ±äÁ¿ÒªÏÈ¶¨Òåºó³õÊ¼»¯£¡·ñÔò»á±¨´í£ºÔÚ¸Ã²Ù×÷Ö®ºó²Å¶¨ÒåµÄ±äÁ¿Î´³õÊ¼»¯£¡
+    # train_step = tf.train.AdamOptimizer(learning_rate=learn_rate).minimize(cross_entropy)  # ±¨´í£ºÄ³Ğ©±äÁ¿Î´³õÊ¼»¯£¡
     start_time = time.clock()
-    for i in range(20000):
+    for i in range(1000):
         batch = mist_data.train.next_batch(50)
-        train_step.run(feed_dict={x: batch[0], y: batch[1], keep_droop_prob: 0.5})  # ÑµÁ·
-        if i % 5000 == 0:
+        train_step.run(feed_dict={x: batch[0], y: batch[1], learn_rate: 0.1, keep_droop_prob: 0.5})  # ÑµÁ·
+        if i % 100 == 0:
             train_accuracy = accuracy.eval(feed_dict={x: batch[0], y: batch[1], keep_droop_prob: 1.0})
             print "ÑµÁ·µÚ%d²½£¬×¼È·ÂÊÎª%f" % (i, train_accuracy)
             # test_accuracy = accuracy.eval(feed_dict={x: mist_data.test.images, y: mist_data.test.labels, keep_droop_prob: 1.0})
