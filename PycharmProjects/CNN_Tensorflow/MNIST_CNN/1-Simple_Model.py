@@ -21,8 +21,14 @@ train_step = tf.train.AdamOptimizer(0.001).minimize(cross_entropy)
 correct_pridiction = tf.equal(tf.arg_max(y_, 1), tf.arg_max(y, 1))  # arg_max(y, 1):返回y中维度为1的向量的最大值的索引值
 accuracy = tf.reduce_mean(tf.cast(correct_pridiction, "float"))  # cast():布尔类型转换为数值类型
 
+""" 可视化： 创建一个summary监控tensor """
+tf.scalar_summary("loss", cross_entropy)  # Create a summary to monitor cross_entropy tensor
+tf.scalar_summary("accuracy", accuracy)
+merged_summary_op = tf.merge_all_summaries()  # Merge all summaries into a single op
+
 with tf.Session() as sess:
     sess.run(tf.initialize_all_variables())   # 初始化所有变量
+    summary_writer = tf.train.SummaryWriter('/tensorflow_logs/example', graph=tf.get_default_graph())  # op to write logs to Tensorboard
     for i in range(1000):  # 训练模型1000次
         batch = mist.train.next_batch(50)  # 每50张作为一个batch，返回值 batch[图片,标签]
         train_step.run(feed_dict={x: batch[0], y: batch[1]})  # “min-batch梯度下降”,在计算图中，可以用feed_dict来替代任何张量，并不仅限于替换占位符。
@@ -32,8 +38,5 @@ with tf.Session() as sess:
             print test_accuracy
     test_accuracy = accuracy.eval(feed_dict={x: mist.test.images, y: mist.test.labels})  # 1000次后的最终预测结果
     print test_accuracy
-
-
-
 
 

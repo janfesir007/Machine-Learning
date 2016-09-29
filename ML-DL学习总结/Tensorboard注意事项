@@ -1,0 +1,10 @@
+由于tensorflow是通过pip命令安装，且安装在“虚拟环境”下,所以要先进入Tensorflow环境中，安装Tensorflow的同时也已经安装了tensorboard的：
+1.先启动Tensorflow： source tensorflow/bin/activate
+2.在tensorflow环境下，再启动Tensorboard： tensorboard --logdir=path/to/tensorfolw_logs  #path/to/tensorfolw_logs指：被用来可视化的“事件文件”的路径 如：事件文件‘events.out.tfevents.1475122236’在路径 /home/janfesir/Github_Projects/PycharmProjects/CNN_Tensorflow/MNIST_CNN/tensorflow_logs/ 下
+
+在启动tensorboard中可能遇见如下问题：
+1.WARNING:tensorflow:IOError [Errno 2] No such file or directory: '/home/janfesir/tensorflow/local/lib/python2.7/site-packages/tensorflow/tensorboard/TAG' on path '/home/janfesir/tensorflow/local/lib/python2.7/site-packages/tensorflow/tensorboard/TAG'
+2.WARNING:tensorflow:IOError [Errno 2] No such file or directory: '/home/janfesir/tensorflow/local/lib/python2.7/site-packages/tensorflow/tensorboard/lib/css/global.ss' on path '/home/janfesir/tensorflow/local/lib/python2.7/site-packages/tensorflow/tensorboard/lib/css/global.ss'
+
+这两个问题：都是说明在指定路径下缺少指定文件（TAG/global.ss），解决方法：
+去github上找到tensorboard的源码的路径下的指定文件（https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard/），把它复制到指定位置即可。有时路径可能不对，就要手动创建指定路径，然后把文件复制进去。

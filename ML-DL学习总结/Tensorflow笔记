@@ -1,0 +1,15 @@
+1.Tensorflow程序执行顺序：从上到下依次执行，变量先定义后使用。计算框架的基本思路：程序先完成计算图的逻辑运算，在计算图中, 
+  操作间传递的数据都是tensor。然后通过Session（会话）传入数据进行具体计算，在计算之前要对计算图中的所有变量进行初始化。
+2.TensorFlow 计算图中,程序使用 tensor(张量) 数据结构来代表所有的数据, 操作间传递的数据都是 tensor。
+ 你可以把 TensorFlow tensor 看作是一个n维的数组或列表。一个 tensor 包含一个静态类型 rank（阶），和 一个动态类型shape（形状）。
+
+3.“tensor数据类型”转化为“narray数据类型”的两种方法：
+   val_cost = cost.eval(feed_dict={X: train_X, Y: train_Y})
+   val_cost = sess.run(cost, feed_dict={X: train_X, Y: train_Y})
+   tensor数据类型：虽然类似于数组或列表，但它不是具体值！只有转化为“narray数据类型”，才可以被输出打印看到具体值。
+
+4.在每个 epoch（周期/训练次数） 送入单个数据点,这被称为"随机梯度下降"（stochastic gradient descent）;
+  在每个 epoch 送入一堆数据点，这被称为 "mini-batch 梯度下降";
+  在一个 epoch 一次性送入所有的数据点，这被称为 "batch 梯度下降"(通常所说的“全局梯度下降”)
+
+
