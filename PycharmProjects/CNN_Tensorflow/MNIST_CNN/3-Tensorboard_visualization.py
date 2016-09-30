@@ -23,7 +23,7 @@ b = tf.Variable(tf.zeros([10]), name='Bias')
 # Tensorboard's Graph visualization more convenient
 with tf.name_scope('Model'):
     # Model
-    pred = tf.nn.softmax(tf.matmul(x, W) + b) # Softmax
+    pred = tf.nn.softmax(tf.matmul(x, W) + b)  # Softmax
 with tf.name_scope('Loss'):
     # Minimize error using cross entropy
     cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
@@ -39,9 +39,9 @@ with tf.name_scope('Accuracy'):
 init = tf.initialize_all_variables()
 
 # Create a summary to monitor cost tensor 创建一个summary监控cost tensor
-tf.scalar_summary("loss", cost)
+tf.scalar_summary("3-Loss", cost)
 # Create a summary to monitor accuracy tensor
-tf.scalar_summary("accuracy", acc)
+tf.scalar_summary("3-Accuracy", acc)
 # Merge all summaries into a single op
 merged_summary_op = tf.merge_all_summaries()
 
@@ -59,12 +59,11 @@ with tf.Session() as sess:
         # Loop over all batches
         for i in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-            # Run optimization op (backprop), cost op (to get loss value)
-            # and summary nodes
+            # Run optimization op (backprop), cost op (to get loss value) and summary nodes
             _, c, summary = sess.run([optimizer, cost, merged_summary_op],
                                      feed_dict={x: batch_xs, y: batch_ys})
-            # Write logs at every iteration
-            summary_writer.add_summary(summary, epoch * total_batch + i)
+            # Write logs at every iteration  #global_step:两层for循环的总次数的遍历（0～max次），使得在坐标上能准确的画出（次数,loss/accurary）的所有点
+            summary_writer.add_summary(summary, global_step=epoch * total_batch + i)
             # Compute average loss
             avg_cost += c / total_batch
         # Display logs per epoch step
