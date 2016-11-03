@@ -1,16 +1,50 @@
-将本地文件推送到GitHub“三步走”：
+一.将本地文件推送到GitHub“三步走”：
 0.打开终端，先cd到相应目录（Github_Projects）
 1. git add .     #将某变动（新增/修改/删除）的“文件”或“文件夹（包括所有子目录及其文件）”添加到暂缓区
-2. git commit [-m "注释说明提交的内容"]    #提交,[]代表可选项
+2. git commit [-m "注释说明提交的内容"]    #提交,[]代表可选项，把暂存区的所有内容提交到当前分支
 3. git push origin    #推送内容至GitHub上。origin代表分支在GitHub上的具体url，origin=https://github.com/janfesir007/Machine-Learning
 
+二.版本恢复命令：
+1.工作区和暂存区概念：
+	工作区（Working Directory）：就是你在电脑里能看到的目录。
+
+      	版本库（Repository）：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
+
+        Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
+	把文件往Git版本库里添加的时候，是分两步执行的：
+
+	第一步是用git add把文件添加进去，实际上就是把文件修改添加到暂存区；
+
+	第二步是用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支。
+
+	Git是如何跟踪修改的：每次修改，如果不add到暂存区，那就不会加入到commit中。
+
+2.撤销修改：
+	场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。
+
+	场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD file，就回到了场景1，第二步按场景1操作。
+
+	场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，git reset HEAD^
+	git reset命令有3种方式：
+
+   	 git reset [--mixed]：此为默认方式，不带任何参数的git reset = git reset --mixed，即时这种方式，它回退到某个版本，只保留源码，回退commit和index信息,即会删除暂存区的内容
+
+    	git reset --soft：回退到某个版本，只回退了commit的信息，不会恢复到index file一级，暂存区内容未删除。如果还要提交，直接commit即可
+
+    	git reset --hard：彻底回退到某个版本，本地的源码(工作区的内容)也会变为上一个版本的内容
 
 
-git remote
-     因为不需要每次都用完整的url,所以Git为每一个remote repo的url都建立一个别名,然后用git remote来管理这个list.
-     git remote: 列出remote aliases.
-     如果你clone一个project,Git会自动将原来的url添加进来,别名就叫做:origin.
-     git remote -v:可以看见每一个别名对应的实际url.
-     git remote add [alias] [url]: 添加一个新的remote repo.
-     git remote rm [alias]: 删除一个存在的remote alias.
-     git remote rename [old-alias] [new-alias]: 重命名.
+三.其他有用的命令：
+	git log #可以查看每次commit的改变，可以查看历史commit操作
+	git diff #可以查看最近一次改变的內容，加上参数可以看其它的改变并互相比较
+	git show #可以看某次的变更
+	git status# 若想知道目前工作树的状态，可以輸入
+	find . -type f -size +100M  #这是linux命令，查找所有大于100M的文件
+
+	git remote:因为不需要每次都用完整的url,所以Git为每一个remote repo的url都建立一个别名,然后用git remote来管理这个list.
+	     git remote: 列出remote aliases.
+	     如果你clone一个project,Git会自动将原来的url添加进来,别名就叫做:origin.
+	     git remote -v:可以看见每一个别名对应的实际url.
+	     git remote add [alias] [url]: 添加一个新的remote repo.
+	     git remote rm [alias]: 删除一个存在的remote alias.
+	     git remote rename [old-alias] [new-alias]: 重命名.
