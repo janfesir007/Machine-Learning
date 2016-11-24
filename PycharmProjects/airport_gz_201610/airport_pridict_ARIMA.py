@@ -74,36 +74,5 @@ def airport_pridict_ARIMA():
     # plt.show()
 
 
-
-
-
-
-
-    # data_Seri = pd.Series(data[:len(data)-18], dtype=float)  # 后18个数据用作测试集
-    # data_Seri.index = pd.Index(sm.tsa.datetools.dates_from_range('1965'))
-    # data_diff = data_Seri.diff(1)
-    # data_diff.dropna(inplace=True)
-    # arma_mod = sm.tsa.ARMA(data_diff, (2, 0)).fit()
-    # predict_sunspots = arma_mod.predict(str(len(data)-18), str(len(data)), dynamic=True)
-    #
-    # fig1, ax = plt.subplots(figsize=(12, 8))  # 两图放在同一坐标上
-    # ax = data_diff.ix['1':].plot(ax=ax)  # 画出所有90条数据原始数据图
-    # fig1 = arma_mod.plot_predict(str(len(data)-18), str(len(data), dynamic=True, ax=ax, plot_insample=False))  # 画出预测数据图
-    # plt.show()
-    # def mean_forecast_err(y, yhat):  # “差分后的数据”与“用差分后的数据预测的数据”计算误差;
-    #     return y.sub(yhat).mean()
-    # err = mean_forecast_err(data_diff, predict_sunspots)
-    # print "差分后的数据的预测与真实值的误差均值：%f"%err
-    #
-    #
-    # arma_mod_diff = pd.Series(arma_mod.fittedvalues, copy=True)  # 模型拟合后的差分值
-    # arma_mod_diff_cumsum = arma_mod_diff.cumsum()  # 模型拟合后的差分值累加
-    # arma_mod_resource = pd.Series(data_Seri.ix[0], index=data_Seri.index)
-    # arma_mod_resource = arma_mod_resource.add(arma_mod_diff_cumsum, fill_value=0)
-    # plt.plot(data_Seri)  # 原始样本值
-    # plt.plot(arma_mod_resource, "r")  # 经模型拟合后的类原始值(所谓的“时间序列预测模型”所产生的预测值)
-    # plt.title('RMSE: %.4f' % np.sqrt(sum((arma_mod_resource - data_Seri) ** 2) / len(data_Seri)))  # 原始值与预测值之间的方差
-    # plt.show()
-
 """主函数"""
 airport_pridict_ARIMA()
