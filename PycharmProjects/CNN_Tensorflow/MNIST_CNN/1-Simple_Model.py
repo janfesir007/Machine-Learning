@@ -13,7 +13,7 @@ w = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))  # [10]:一维数组（每个元素可以同时进行独立运算）
 
 
-with tf.name_scope("Model"):  # 预测值y[None,10]
+with tf.name_scope("Model"):  # 预测值y_[None,10]
     y_ = tf.nn.softmax(tf.matmul(x, w)+b)  # tf.matmul()==numpy.doc():内积/点积; 维数：(None*784,784*10)+([10])
 with tf.name_scope("Loss"):  # 交叉熵cross_entropy
     cross_entropy = -tf.reduce_sum(y*tf.log(y_))

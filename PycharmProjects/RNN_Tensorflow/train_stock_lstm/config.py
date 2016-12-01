@@ -1,9 +1,10 @@
+# -*-coding:gbk-*-
+# -*-coding:utf-8-*-
 import datetime
-
 names_file = 'data/dow30.csv'
 start = datetime.datetime(1990, 1, 1)
 #start = datetime.datetime(2013, 1, 1) # for testing
-end = datetime.datetime(2015, 12, 7)
+end = datetime.datetime(2015, 11, 25)
 save_file = 'data/dow30_{}_{}.npz'.format(datetime.datetime.strftime(start, "%Y%m%d"),
         datetime.datetime.strftime(end, "%Y%m%d"))
 normalize_std_len = 50
@@ -17,7 +18,7 @@ class SmallConfig(object):
     num_steps = 10
     hidden_size = 200
     keep_prob = 1.0
-    lr_decay = 0.5
+    lr_decay = 0.5  # Ñ§Ï°ÂÊË¥±ä
     batch_size = 30
 
 
