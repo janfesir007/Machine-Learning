@@ -40,9 +40,9 @@ def example_1():
 
      """
      1.先对时间序列数据进行1阶差分，,然后再用ARMA模型(自回归AR/移动平均MA 时间序列模型)拟合
-       dta_diff = dta.diff(2), sm.tsa.ARMA(dta_diff, (2, 0)).fit()
+       dta_diff = dta.diff(2)#参数2指的是差分阶数; sm.tsa.ARMA(dta_diff, (3, 0)).fit()
      并不等价与
-       sm.tsa.ARIMA(dta,(2,2,0)).fit()  # 将差分I融合进ARMA模型得到ARIMA模型
+       sm.tsa.ARIMA(dta,(3,2,0)).fit()  # 将差分I融合进ARMA模型得到ARIMA模型,参数2指的是差分次数
      2.重要公式：dta.diff(n) = dta - dta.shift(n)
        dta:原始数据
        diff(n)”一阶差分“处理:隔开n个位置的数据相减(先移动n个位置,再由原始数据减)
@@ -251,5 +251,5 @@ fig = plt.figure(figsize=(12, 8))  # 画布
 ax1 = fig.add_subplot(111)  # 坐标系
 data_real.plot(ax=ax1)  # 原始样本值(2001-)
 pridict_data[len(train_data)-1:].plot(ax=ax1, color="r")  # 预测值(2080-)
-plt.title('RMSE: %.4f' % (np.sqrt(sum((np.array(test_data) - np.array(list(pridict_data[len(train_data):]))) ** 2) / len(test_data))))  # 实际值与预测值之间的方差
+plt.title('RMSE: %.4f' % (np.sqrt(sum((np.array(test_data) - np.array(list(pridict_data[len(train_data):]))) ** 2) / len(test_data))))  # 均方根误差RMSE:平均单个数据的实际值与预测值之间的偏差
 plt.show()
