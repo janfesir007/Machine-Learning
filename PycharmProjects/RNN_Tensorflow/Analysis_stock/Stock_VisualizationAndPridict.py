@@ -363,16 +363,3 @@ if __name__ == '__main__':
     plt.show()
     end_time = time.time()
     print ("cost time: %.1fs" % (end_time-start_time))
-
-    # make all arguments of main(...) command line arguments (with type inferred from
-    # the default value) - this doesn't work on bools so those are strings when
-    # passed into main.
-    # import argparse, inspect
-    #
-    # parser = argparse.ArgumentParser(description='Command line options')
-    # ma = inspect.getargspec(main)
-    # for arg_name, arg_type in zip(ma.args[-len(ma.defaults):], [type(de) for de in ma.defaults]):
-    #     parser.add_argument('--{}'.format(arg_name), type=arg_type, dest=arg_name)
-    # args = parser.parse_args(sys.argv[1:])
-    # a = {k: v for (k, v) in vars(args).items() if v is not None}
-    # main(**a)

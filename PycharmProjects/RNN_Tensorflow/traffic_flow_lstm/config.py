@@ -30,11 +30,11 @@ class SmallConfig(object):
 class MediumConfig(object):
     """Medium config."""
     init_scale = 0.05
-    learning_rate = 1.0
+    learning_rate = 0.1
     lr_decay = 0.8
     max_grad_norm = 5
     max_epoch = 1 # epoch<max_epoch时,lr_decay值=1,epoch>max_epoch时,lr_decay逐渐减小
-    max_max_epoch = 6
+    max_max_epoch = 4
     num_layers = 2
     num_steps = 12
     batch_size = 30
